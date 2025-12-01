@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN-3.9'
-        jdk 'JDK21'
+        maven 'MAVEN-3.9'      // from Global Tool Configuration
+        jdk 'JDK21'            // from Global Tool Configuration
     }
 
     stages {
@@ -24,26 +24,26 @@ pipeline {
 
         stage('Deploy to Tomcat (Windows)') {
             steps {
-                echo "Copying WAR to Tomcat..."
-
-                // STOP TOMCAT
+                echo "Stopping Tomcat..."
                 bat '"C:\\apache-tomcat-9.0.112\\bin\\shutdown.bat"'
+                bat 'timeout /t 5'      // wait 5 sec for safe shutdown
 
-                // COPY WAR FILE TO WEBAPPS
+                echo "Copying WAR to Tomcat webapps..."
                 bat 'copy /Y target\\hotel.war C:\\apache-tomcat-9.0.112\\webapps\\hotel.war'
 
-                // START TOMCAT
+                echo "Starting Tomcat..."
                 bat '"C:\\apache-tomcat-9.0.112\\bin\\startup.bat"'
+                bat 'timeout /t 3'      // allow Tomcat to boot
             }
         }
     }
 
     post {
         success {
-            echo "Deployment successful!"
+            echo "🚀 Deployment Successful! Visit: http://localhost:8080/hotel"
         }
         failure {
-            echo "Deployment failed!"
+            echo "❌ Deployment Failed. Check logs."
         }
     }
 }
