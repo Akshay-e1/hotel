@@ -2,48 +2,50 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN-3.9'      // from Global Tool Configuration
-        jdk 'JDK21'            // from Global Tool Configuration
+        maven 'MAVEN-3.9'
+        jdk 'JDK21'
+    }
+
+    environment {
+        TOMCAT_HOME = 'C:\\Users\\hp\\Downloads\\apache-tomcat-9.0.112-windows-x64\\apache-tomcat-9.0.112'
     }
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Akshay-e1/hotel.git',
-                    credentialsId: 'github-hotel-token'
+                    credentialsId: 'github-hotel-token',
+                    url: 'https://github.com/Akshay-e1/hotel.git'
             }
         }
 
         stage('Build WAR') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                bat "mvn clean package -DskipTests"
             }
         }
 
-        stage('Deploy to Tomcat (Windows)') {
+        stage('Deploy to Tomcat') {
             steps {
-                echo "Stopping Tomcat..."
-                bat '"C:\\apache-tomcat-9.0.112\\bin\\shutdown.bat"'
-                bat 'timeout /t 5'      // wait 5 sec for safe shutdown
+                echo "🔴 Stopping Tomcat..."
+                bat "\"%TOMCAT_HOME%\\bin\\shutdown.bat\""
 
-                echo "Copying WAR to Tomcat webapps..."
-                bat 'copy /Y target\\hotel.war C:\\apache-tomcat-9.0.112\\webapps\\hotel.war'
+                echo "📦 Deploying WAR..."
+                bat "copy /Y target\\hotel.war \"%TOMCAT_HOME%\\webapps\\hotel.war\""
 
-                echo "Starting Tomcat..."
-                bat '"C:\\apache-tomcat-9.0.112\\bin\\startup.bat"'
-                bat 'timeout /t 3'      // allow Tomcat to boot
+                echo "🟢 Starting Tomcat..."
+                bat "\"%TOMCAT_HOME%\\bin\\startup.bat\""
             }
         }
     }
 
     post {
         success {
-            echo "🚀 Deployment Successful! Visit: http://localhost:8080/hotel"
+            echo "🎉 Deployment successful!"
         }
         failure {
-            echo "❌ Deployment Failed. Check logs."
+            echo "❌ Deployment failed. Check Jenkins Console Output."
         }
     }
 }
