@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN-3.9'   // name you configured in Jenkins → Global Tool config
+        maven 'MAVEN-3.9'
         jdk 'JDK21'
     }
 
@@ -16,37 +16,34 @@ pipeline {
             }
         }
 
-        stage('Build with Maven') {
+        stage('Build WAR') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Deploy to Tomcat') {
+        stage('Deploy to Tomcat (Windows)') {
             steps {
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: 'tomcat-server',
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: 'target/hotel.war',
-                                    remoteDirectory: '/opt/tomcat/webapps/',
-                                    removePrefix: '',
-                                    execCommand: ''
-                                )
-                            ],
-                            verbose: true
-                        )
-                    ]
-                )
+                echo "Copying WAR to Tomcat..."
+
+                // STOP TOMCAT
+                bat '"C:\\apache-tomcat-9.0.112\\bin\\shutdown.bat"'
+
+                // COPY WAR FILE TO WEBAPPS
+                bat 'copy /Y target\\hotel.war C:\\apache-tomcat-9.0.112\\webapps\\hotel.war'
+
+                // START TOMCAT
+                bat '"C:\\apache-tomcat-9.0.112\\bin\\startup.bat"'
             }
         }
     }
 
     post {
-        always {
-            echo "Pipeline finished."
+        success {
+            echo "Deployment successful!"
+        }
+        failure {
+            echo "Deployment failed!"
         }
     }
 }
