@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hotel Management</title>
+    <title>devops Hotel Management</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700;800&display=swap" rel="stylesheet">
@@ -102,7 +102,7 @@
 
         <div class="glass-box" data-aos="zoom-in">
 
-            <h1>NEW HOTEL MANAGEMENT</h1>
+            <h1>devops HOTEL MANAGEMENT</h1>
             <div class="sub">Manage Guests · Reservations · Rooms</div>
 
             <div class="buttons">
