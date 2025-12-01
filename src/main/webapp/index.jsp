@@ -102,7 +102,7 @@
 
         <div class="glass-box" data-aos="zoom-in">
 
-            <h1>devops HOTEL MANAGEMENT project</h1>
+            <h1>devops idly kottu...</h1>
             <div class="sub">Manage Guests · Reservations · Rooms</div>
 
             <div class="buttons">
