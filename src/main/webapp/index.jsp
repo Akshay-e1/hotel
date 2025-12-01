@@ -102,8 +102,8 @@
 
         <div class="glass-box" data-aos="zoom-in">
 
-            <h1>HOTEL MANAGEMENT</h1>
-            <div class="sub">Manage Guests · Reservations · Rooms</div>
+            <h1>NEW HOTEL MANAGEMENT</h1>
+            <div class="sub">Manage Guests Â· Reservations Â· Rooms</div>
 
             <div class="buttons">
 
