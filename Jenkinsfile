@@ -31,13 +31,13 @@ pipeline {
                 echo "⚙️ Stopping Tomcat..."
                 bat "\"%TOMCAT_HOME%\\bin\\shutdown.bat\""
 
-                echo "🗑 Deleting OLD exploded folder..."
-                bat "rmdir /S /Q \"%TOMCAT_HOME%\\webapps\\hotel\""
+                echo "🗑 Removing old exploded folder..."
+                bat "if exist \"%TOMCAT_HOME%\\webapps\\hotel\" rmdir /S /Q \"%TOMCAT_HOME%\\webapps\\hotel\""
 
-                echo "🗑 Deleting OLD WAR..."
-                bat "del /F /Q \"%TOMCAT_HOME%\\webapps\\hotel.war\""
+                echo "🗑 Removing old WAR..."
+                bat "if exist \"%TOMCAT_HOME%\\webapps\\hotel.war\" del /F /Q \"%TOMCAT_HOME%\\webapps\\hotel.war\""
 
-                echo "📦 Copying NEW WAR..."
+                echo "📦 Copying new WAR..."
                 bat "copy /Y target\\hotel.war \"%TOMCAT_HOME%\\webapps\\hotel.war\""
 
                 echo "🚀 Starting Tomcat..."
