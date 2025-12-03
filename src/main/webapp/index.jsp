@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>devops Hotel Management project</title>
+    <title> Hotel Management project</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;500;700;800&display=swap" rel="stylesheet">
